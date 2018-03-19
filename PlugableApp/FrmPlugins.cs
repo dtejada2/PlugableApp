@@ -23,9 +23,7 @@ namespace PlugableApp
         private void InstanciateNugetRepository()
         {
             if (_packageRepository == null)
-            {
                 _packageRepository = PackageRepositoryFactory.Default.CreateRepository("http://localhost:9000/nuget");
-            }
         }
 
         private void button1_Click(object sender, EventArgs e)
