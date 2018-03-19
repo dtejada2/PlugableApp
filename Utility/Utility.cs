@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Update
+namespace Utility
 {
-    public static class Utility
+    public static class ExtensionUtility
     {
         public static string GetConfig(string confKey)
         {
@@ -25,6 +25,23 @@ namespace Update
         //    path = path ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         //    return (new DirectoryInfo(path)).Name;
         //}
+
+        public static Version ToVersion(this string version)
+        {
+            return new Version(version);
+        }
+
+        public static bool VersionGreaterThanActual(this string source, string target)
+        {
+            var version1 = source.ToVersion();
+            var version2 = target.ToVersion();
+
+            var result = version1.CompareTo(version2);
+            if (result > 0)
+                return true;
+            else //if (result < 0)
+                return false;
+        }
 
         public static IEnumerable<FileInfo> GetAllFilesRecursively(this DirectoryInfo rootPath)
         {
@@ -42,8 +59,8 @@ namespace Update
 
         public static async Task CopyToAsync(string from, string to)
         {
-            Contract.Requires(!String.IsNullOrEmpty(from) && File.Exists(from));
-            Contract.Requires(!String.IsNullOrEmpty(to));
+            Contract.Requires(!string.IsNullOrEmpty(from) && File.Exists(from));
+            Contract.Requires(!string.IsNullOrEmpty(to));
 
             if (!File.Exists(from))
             { 

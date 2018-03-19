@@ -156,6 +156,10 @@
       <Project>{714edb73-7931-4a54-9397-720418d496eb}</Project>
       <Name>HostCommon</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{7d2599cc-fae1-42b7-989d-a193d189f335}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">

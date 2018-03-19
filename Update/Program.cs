@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-
+using Utility;
 namespace Update
 {
     class Program
@@ -16,8 +16,8 @@ namespace Update
         static void Main(string[] args)
         {
             path = "C:\\Users\\Daniel-PC2\\Documents\\Visual Studio 2017\\Projects\\PlugableApp\\PlugableApp\\bin\\Debug";
-            path = $"{path}/{Utility.GetConfig("dest")}";
-            IEnumerable<FileInfo> data = Utility.GetAllFilesRecursively(new System.IO.DirectoryInfo(path));
+            path = $"{path}/{ExtensionUtility.GetConfig("dest")}";
+            IEnumerable<FileInfo> data = ExtensionUtility.GetAllFilesRecursively(new System.IO.DirectoryInfo(path));
 
             Parallel.ForEach(data, (fileInfo) =>
             {
