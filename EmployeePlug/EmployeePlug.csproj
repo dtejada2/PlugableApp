@@ -57,6 +57,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Build.ps1" />
     <None Include="BuildAndRelease.bat" />
     <None Include="EmployeePlug.nuspc">
       <SubType>Designer</SubType>
