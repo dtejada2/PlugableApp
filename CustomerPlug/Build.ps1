@@ -1,4 +1,4 @@
-﻿Set-Variable -Name "version" -Value "1.0.1"
+﻿Set-Variable -Name "version" -Value "1.0.0"
 
 nuget pack -Version $version
 

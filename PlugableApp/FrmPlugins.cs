@@ -6,6 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -65,6 +67,22 @@ namespace PlugableApp
                 packageManager.InstallPackage(packageId, SemanticVersion.Parse(version));
             }
         }
+
+        public void AddAssemblie(string packagePath, string packageName,SemanticVersion semanticVersion)
+        {
+            string fileName = Path.Combine(packagePath);
+            var file = new PackageReferenceFile(fileName);
+
+            var currentTargetFw = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(TargetFrameworkAttribute), false);
+            var targetFrameworkAttribute = ((TargetFrameworkAttribute[])currentTargetFw).FirstOrDefault();
+            
+            file.AddEntry(packageName, semanticVersion, false, new FrameworkName(targetFrameworkAttribute.FrameworkName));
+        }
+
+        //foreach (PackageReference packageReference in file.GetPackageReferences())
+        //{
+        //    Console.WriteLine("Id={0}, Version={1}", packageReference.Id, packageReference.Version);
+        //}
 
         private void dgvPlugins_CellClick(object sender, DataGridViewCellEventArgs e)
         {
