@@ -21,6 +21,45 @@ namespace Update
         static readonly Regex commentRegex = new Regex(@"\s*#.*$");
         static readonly Regex stagingRegex = new Regex(@"#\s+(\d{1,3})%$");
 
+        void waitForParentToExit()
+        {
+            // Grab a handle the parent process
+            var parentPid = NativeMethods.GetParentProcessId();
+            var handle = default(IntPtr);
+
+            // Wait for our parent to exit
+            try
+            {
+                handle = NativeMethods.OpenProcess(ProcessAccess.Synchronize, false, parentPid);
+                if (handle != IntPtr.Zero)
+                {
+                    NativeMethods.WaitForSingleObject(handle, 0xFFFFFFFF /*INFINITE*/);
+                }
+                else
+                {
+                }
+            }
+            finally
+            {
+                if (handle != IntPtr.Zero) NativeMethods.CloseHandle(handle);
+            }
+
+        }
+
+        public async Task UpdateSelf()
+        {
+            waitForParentToExit();
+            var src = Assembly.GetExecutingAssembly().Location;
+            var updateDotExeForOurPackage = Path.Combine(
+                Path.GetDirectoryName(src),
+                "..", "Update.exe");
+
+            await Task.Run(() => {
+                File.Copy(src, updateDotExeForOurPackage, true);
+            });
+        }
+
+
         static void Main(string[] args)
         {
             string fileName = Path.Combine(path, @"packages.cssonfig");
@@ -40,7 +79,7 @@ namespace Update
 
             //XmlHandler xml = new XmlHandler();
 
-            path = "C:\\Users\\Daniel-PC2\\Documents\\Visual Studio 2017\\Projects\\PlugableApp\\PlugableApp\\bin\\Debug";
+            /*path = "C:\\Users\\Daniel-PC2\\Documents\\Visual Studio 2017\\Projects\\PlugableApp\\PlugableApp\\bin\\Debug";
             path = Path.Combine(path, ExtensionUtility.GetConfig("dest"));
            // path = $"{path}/{ExtensionUtility.GetConfig("dest")}";
             IEnumerable<FileInfo> data = ExtensionUtility.GetAllFilesRecursively(new System.IO.DirectoryInfo(path));
@@ -62,7 +101,7 @@ namespace Update
                 ParseReleaseEntry(item);
             }
             //------------------------------------------
-
+            */
         }
 
         public static Version ParseReleaseEntry(string entry)

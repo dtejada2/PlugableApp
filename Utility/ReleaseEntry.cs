@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Utility
 {
-    class ReleaseEntry
+    public class Package
     {
-
+        public string Id { get; set; }
+        public int MyProperty { get; set; }
     }
 }
