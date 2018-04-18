@@ -5,6 +5,8 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using HostCommon;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace PlugableApp
 {
@@ -149,8 +151,7 @@ namespace PlugableApp
 
 		private void LoadPlugs()
 		{
-
-			string[] files = Directory.GetFiles("Plugs", "*.dll");
+            string[] files = Directory.GetFiles("Plugs", "*.dll");
 
 			foreach(string f in files)
 			{
@@ -159,7 +160,7 @@ namespace PlugableApp
 					Assembly a = Assembly.LoadFrom(f);
 
 					System.Type[] types = a.GetTypes();
-					foreach(System.Type type in types)
+					foreach(System.Type type in types.Where(t=>t.GetInterface("IPlug") != null))
 					{
 						if(type.GetInterface("IPlug")!=null)
 						{

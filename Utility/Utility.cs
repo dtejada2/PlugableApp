@@ -15,16 +15,15 @@ namespace Utility
         {
             var config = ConfigurationManager.AppSettings[confKey];
             if (config == null)
-                throw new Exception("confKey not found!");
+                throw new Exception(Common.Messages.KeyConfigNotFound);
 
             return config.ToString();
         }
 
-        //static string getAppNameFromDirectory(string path = null)
-        //{
-        //    path = path ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        //    return (new DirectoryInfo(path)).Name;
-        //}
+        public static string GetFullPath(this string relativePath)
+        {
+            return Path.Combine(Environment.CurrentDirectory, relativePath);
+        }
 
         public static Version ToVersion(this string version)
         {
