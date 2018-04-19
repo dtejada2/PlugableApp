@@ -10,12 +10,11 @@ using System.Threading.Tasks;
 
 namespace Utility
 {
-    public class NugetPackageManager
+    public class NugetPackageManager : INugetPackageManager
     {
         IPackageRepository _packageRepository;
         string nugetServer = string.Empty;
-
-        private void InstanciateNugetRepository()
+        public NugetPackageManager()
         {
             nugetServer = ExtensionUtility.GetConfig(nugetServer);
 
@@ -26,7 +25,7 @@ namespace Utility
                 _packageRepository = PackageRepositoryFactory.Default.CreateRepository(nugetServer);
         }
 
-        public IEnumerable<IPackage> GetServerPackagesList(bool prerelease = false)
+        public IEnumerable<IPackage> GetServerPackageList(bool prerelease = false)
         {
             var packages = _packageRepository.GetPackages().Where(p => prerelease ? p.IsAbsoluteLatestVersion : p.IsLatestVersion);
 
@@ -36,7 +35,6 @@ namespace Utility
 
         public void DownLoadPackage(string packageId, string version)
         {
-            InstanciateNugetRepository();
             var packages = _packageRepository.FindPackagesById(packageId);
             if (packages.Any())
             {
@@ -51,7 +49,7 @@ namespace Utility
             }
         }
 
-        public void AddAssemblie(string packageName, SemanticVersion semanticVersion)
+        public void AddPackageConfig(string packageName, SemanticVersion semanticVersion)
         {
             var file = GetPackageReferenceFile();
             var targetFrameworkAttribute = GetTargetFrameworkAttribute();
@@ -70,14 +68,14 @@ namespace Utility
             return ((TargetFrameworkAttribute[])currentTargetFw).FirstOrDefault();
         }
 
-        public void UpdateAssemblie(string packageName, SemanticVersion semanticVersion)
+        public void UpdatePackageConfig(string packageName, SemanticVersion semanticVersion)
         {
             var file = GetPackageReferenceFile();
             var targetFrameworkAttribute = GetTargetFrameworkAttribute();
             file.AddEntry(packageName, semanticVersion, false, new FrameworkName(targetFrameworkAttribute.FrameworkName));
         }
 
-        public bool RemoveAssemblie(string packageName, SemanticVersion semanticVersion)
+        public bool RemovePackageConfig(string packageName, SemanticVersion semanticVersion)
         {
             var file = GetPackageReferenceFile();
 
