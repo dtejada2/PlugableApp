@@ -1,22 +1,23 @@
 ﻿using NuGet;
 using System;
+using System.Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Versioning;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Utility
 {
     public class NugetPackageManager : INugetPackageManager
     {
         IPackageRepository _packageRepository;
-        string nugetServer = string.Empty;
         public NugetPackageManager()
         {
-            nugetServer = ExtensionUtility.GetConfig(nugetServer);
+            string _nugetServer = Common.Config.nugetServer;
+            var nugetServer = ExtensionUtility.GetConfig(_nugetServer);
 
             if (string.IsNullOrEmpty(nugetServer))
                 throw new Exception(Common.Messages.NugetServerNotFound);
@@ -24,11 +25,16 @@ namespace Utility
             if (_packageRepository == null)
                 _packageRepository = PackageRepositoryFactory.Default.CreateRepository(nugetServer);
         }
-
+        
         public IEnumerable<IPackage> GetServerPackageList(bool prerelease = false)
         {
-            var packages = _packageRepository.GetPackages().Where(p => prerelease ? p.IsAbsoluteLatestVersion : p.IsLatestVersion);
-
+            prerelease = false;
+            //prerelease ? p.IsAbsoluteLatestVersion: p.IsLatestVersion
+            var packages = _packageRepository.GetPackages().Where(p => (prerelease && p.IsAbsoluteLatestVersion) || (!prerelease && p.IsLatestVersion));
+            foreach (IPackage p in packages)
+            {
+                var desc = p.Description;
+            }
             //Iterate through the list and print the full name of the pre-release packages to console
             return packages.ToList();
         }
@@ -59,6 +65,7 @@ namespace Utility
         private PackageReferenceFile GetPackageReferenceFile()
         {
             var configPath = Common.Config.packageConfigRelativePath;
+            configPath = ExtensionUtility.GetConfig(configPath);
             return new PackageReferenceFile(configPath.GetFullPath());
         }
 
@@ -89,7 +96,5 @@ namespace Utility
             var file = GetPackageReferenceFile();
             return file.GetPackageReferences();
         }
-
-
     }
 }

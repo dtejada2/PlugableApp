@@ -16,7 +16,7 @@ namespace PlugableApp
         public Menu()
         {
             InitializeComponent();
-            Process.Start("Update.exe");
+            //Process.Start("Update.exe");
         }
 
         private void btnPlugins_Click(object sender, EventArgs e)
