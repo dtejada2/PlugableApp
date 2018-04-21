@@ -6,15 +6,15 @@ Seems like there is too much information in one paragraph. Well, that's why i ca
 
 ![Diagram](Diagram.PNG)
 
-##Prerequisites
+## Prerequisites
 
-##Installing
+## Installing
 
-##Roanmap
+## Roanmap
 
-##External Resources
+## External Resources
 
-##Contributing
+## Contributing
 
 ## Authors
 
