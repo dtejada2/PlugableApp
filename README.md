@@ -5,3 +5,19 @@ This project surge as a solution to a problem I found in serveral companies I've
 Seems like there is too much information in one paragraph. Well, that's why i came up with the following diagram in order to let you know the idea in more detail:
 
 ![Diagram](Diagram.PNG)
+
+##Prerequisites
+
+##Installing
+
+##Roanmap
+
+##External Resources
+
+##Contributing
+
+## Authors
+
+* **Daniel Tejada**
+
+## Acknowledgments
