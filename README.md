@@ -18,7 +18,7 @@ Seems like there is too much information in one paragraph. Well, that's why I ca
 
 ## Contributing
 
-## Authors
+## Author
 
 * **Daniel Tejada**
 
